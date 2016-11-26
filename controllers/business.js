@@ -2,8 +2,8 @@ const Business = require("../models/Business")
 
 exports.getBusinesses = (req, res) => {
 
-	var page = req.query.page || 1
-	var limit = req.query.limit || 20
+	var page = parseInt(req.query.page || 1)
+	var limit = parseInt(req.query.limit || 20)
 
 	Business.find({
 		//query

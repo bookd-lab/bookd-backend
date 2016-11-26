@@ -2,8 +2,8 @@ const Event = require("../models/Event")
 
 exports.getEvents = (req, res) => {
 
-	var page = req.query.page || 1
-	var limit = req.query.limit || 20
+	var page = parseInt(req.query.page || 1)
+	var limit = parseInt(req.query.limit || 20)
 	var creator = req.query.creator
 
 	Event.find({
