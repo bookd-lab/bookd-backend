@@ -1,4 +1,5 @@
 const Business = require("../models/Business")
+const async = require("async")
 
 exports.getBusinesses = (req, res) => {
 
@@ -27,23 +28,25 @@ exports.getBusinesses = (req, res) => {
 exports.Import = (req, res) => {
 
 	var items = req.body
-	items.forEach((data) => {
-
-		Business.find({
-			name: data.name
-		})
-		.exec((error, result) => {
-			if(result.length > 0) {
-				//console.log("skipping business for similar ones: " + result.length)
-				return
-			}
-
-			var business = new Business(data)
-			business.loc = [data.latitude, data.longitude]
-				
-			business.save((err, res) => {
-				console.log("saved: " + res.id)
+	async.forEach(items,
+		(data, callback) => {
+			Business.find({
+				name: data.name
 			})
-		})
+			.exec((error, result) => {
+				if(result.length > 0) {
+					callback()
+					console.log("skipping business for similar ones: " + result.length)
+					return
+				}
+
+				var business = new Business(data)
+				business.loc = [data.latitude, data.longitude]
+				console.log("saving business: " + business.name)
+				business.save(callback)
+			})
+	},
+	(err) => {
+		res.send()
 	})
 }
