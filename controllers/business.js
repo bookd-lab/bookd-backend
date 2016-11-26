@@ -13,7 +13,7 @@ exports.getBusinesses = (req, res) => {
 	.exec((error, result) => {
 
 		if(error) {
-			res.error({
+			res.status(500).send({
 				error: error
 			})
 
