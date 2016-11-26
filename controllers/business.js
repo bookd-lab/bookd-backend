@@ -5,10 +5,12 @@ exports.getBusinesses = (req, res) => {
 
 	var page = parseInt(req.query.page || 1)
 	var limit = parseInt(req.query.limit || 20)
-
+	var sortBy = req.query.sort || 'rating'
+	
 	Business.find({
 		//query
 	})
+	.sort('-' + sortBy)
 	.skip((page - 1) * limit)
 	.limit(limit)
 	.exec((error, result) => {
