@@ -27,7 +27,6 @@ if(!process.env.PROD) {
   dotenv.load({ path: '.env' });
 }
 
-
 /**
  * Controllers (route handlers).
  */
