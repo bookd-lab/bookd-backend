@@ -16,12 +16,17 @@ exports.getBusinesses = (req, res) => {
 
 	var sortBy = req.query.sort || 'rating'
 
+	var filtes = []
+	filtes.push({"price": { $lte: priceMax }})
+	filtes.push({"rating": { $gte: ratingMin }}) 
+	filtes.push({"tags" : { $in: tags }})
+
+	if(req.query.q) {
+		filtes.push({$text : { $search: req.query.q }})
+	}
+
 	Business.find({
-		$and: [
-			{"price": { $lte: priceMax }},
-			{"rating": { $gte: ratingMin }},
-			{"tags" : { $in: tags }}
-		]
+		$and: filtes
 	})
 	.sort('-' + sortBy)
 	.skip((page - 1) * limit)
