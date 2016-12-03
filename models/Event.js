@@ -4,8 +4,8 @@ const eventSchema = new mongoose.Schema({
   name: String,
   creator: {type: String, required: true, index: true},
   businesses: [String],
-  startDate: Date,
-  endDate: Date
+  startDate: Number, //timestamp
+  endDate: Number //timestamp
 }, { timestamps: true });
 
 /**
