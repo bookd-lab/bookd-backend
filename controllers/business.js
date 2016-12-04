@@ -9,17 +9,18 @@ exports.getBusinesses = (req, res) => {
 	var ratingMin = parseInt(req.query.rating) || 0
 
 	//search for food by default
-	var tags = ["food"]
-	if(req.query.tags) {
-		tags = req.query.tags.split(",")
-	}
+	//disabled since moved to full text search
+	// var tags = ["food"]
+	// if(req.query.tags) {
+	// 	tags = req.query.tags.split(",")
+	// }
 
 	var sortBy = req.query.sort || 'rating'
 
 	var filtes = []
 	filtes.push({"price": { $lte: priceMax }})
 	filtes.push({"rating": { $gte: ratingMin }}) 
-	filtes.push({"tags" : { $in: tags }})
+	//filtes.push({"tags" : { $in: tags }})
 
 	if(req.query.q) {
 		filtes.push({$text : { $search: req.query.q }})

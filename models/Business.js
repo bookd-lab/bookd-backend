@@ -26,6 +26,7 @@ const businessSchema = new mongoose.Schema({
   
 }, { timestamps: true });
 
+businessSchema.index({name: 'text', about: 'text', tags: 'text'})
 
 const Business = mongoose.model('Business', businessSchema);
 module.exports = Business;
