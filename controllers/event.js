@@ -43,22 +43,28 @@ exports.createEvent = (req, res) => {
 
 exports.updateEvent = (req, res) => {
 	var eventData = req.body
-
 	var eventSave = Event(eventData)
-	eventSave.update({
-		_id: eventData._id
-	}, {
-		$set: {
-		eventData
-		}
-	}, (err, result) => {
-		if(err) {
+	//simply resave (this is bad, but quick)
+	eventSave.remove((error, result) => {
+		if(error) {
 			res.status(500).send({
 				error: error
 			})
+
 			return
 		}
 
-		res.send()
+		var eventUpdate = Event(eventData)
+		eventUpdate.save((error, result) => {
+			if(error) {
+				res.status(500).send({
+					error: error
+				})
+
+				return
+			}
+
+			res.send(result)
+		})
 	})
 }
