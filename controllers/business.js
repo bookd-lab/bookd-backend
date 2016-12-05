@@ -1,4 +1,5 @@
 const Business = require("../models/Business")
+const mongoose = require("mongoose")
 const async = require("async")
 
 exports.getBusinesses = (req, res) => {
@@ -47,6 +48,33 @@ exports.getBusinesses = (req, res) => {
 	})
 }
 
+exports.getBusinessesByIds = (req, res) => {
+
+	var ids = req.query.ids.split(",")
+
+	var objectIds = []
+	for(var i = 0; i < ids.length; i++) {
+		objectIds.push(mongoose.Types.ObjectId(ids[i]))
+		console.log(objectIds[i])
+	}
+ 	
+	Business.find({
+		_id: { $in : objectIds }
+	})
+	.exec((error, result) => {
+		if(error) {
+			console.log(error)
+			res.status(500).send({
+				error: error
+			})
+
+			return
+		}
+
+		res.send(result)
+	})
+}
+
 exports.Import = (req, res) => {
 
 	var items = req.body
@@ -63,9 +91,10 @@ exports.Import = (req, res) => {
 				}
 
 				var business = new Business(data)
-				business.loc = [data.latitude, data.longitude]
 				console.log("saving business: " + business.name)
-				business.save(callback)
+				business.save((err, r) => {
+					//console.log(err)
+				})
 			})
 	},
 	(err) => {

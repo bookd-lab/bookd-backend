@@ -91,6 +91,7 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }))
  */
 app.get('/', homeController.index);
 app.get('/business', businessController.getBusinesses)
+app.get('/businessByIds', businessController.getBusinessesByIds)
 app.get('/event', eventController.getEvents)
 app.post('/event', eventController.createEvent)
 app.put('/event', eventController.updateEvent)
