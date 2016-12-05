@@ -34,6 +34,7 @@ const homeController = require('./controllers/home');
 const businessController = require('./controllers/business');
 const eventController = require('./controllers/event');
 const reviewController = require('./controllers/review');
+const favoriteController = require('./controllers/favorite');
 
 /**
  * API keys and Passport configuration.
@@ -95,6 +96,10 @@ app.post('/event', eventController.createEvent)
 app.put('/event', eventController.updateEvent)
 app.get('/review', reviewController.getReview)
 app.post('/review', reviewController.createReview)
+app.get('/favorite', favoriteController.getFavorites)
+app.post('/favorite', favoriteController.createFavorite)
+app.delete('/favorite', favoriteController.removeFavorite)
+
 
 //utils
 app.post('/import_business', (req, res) => {
