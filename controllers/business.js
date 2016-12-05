@@ -50,14 +50,18 @@ exports.getBusinesses = (req, res) => {
 
 exports.getBusinessesByIds = (req, res) => {
 
-	var ids = req.query.ids.split(",")
+	if(!req.query.ids.length || req.query.ids.length == 0) {
+		res.send([])
+		return
+	}
 
+	var ids = (req.query.ids || "").split(",") || []
 	var objectIds = []
 	for(var i = 0; i < ids.length; i++) {
 		objectIds.push(mongoose.Types.ObjectId(ids[i]))
 		console.log(objectIds[i])
 	}
- 	
+	
 	Business.find({
 		_id: { $in : objectIds }
 	})
